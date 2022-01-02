@@ -92,8 +92,8 @@ window.addEventListener("DOMContentLoaded",e=>{
     //bulletクラス
     class Bullet{
         constructor(vx,vy){
-            this.x = player.x + 20;
-            this.y = player.y + 5;
+            this.x = 9999;
+            this.y = -9999;
             this.vx = vx;
             this.vy = vy;
         }
