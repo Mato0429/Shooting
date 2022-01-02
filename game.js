@@ -41,8 +41,8 @@ window.addEventListener("DOMContentLoaded",e=>{
         //更新メソッド
         update(){
             //横スピード
-            if (key[37]) this.vx = 5;
-            else if (key[39]) this.vx = -5;
+            if (key[37]) this.vx = this.vy / 2;
+            else if (key[39]) this.vx = this.vy / -2;
             else this.vx = 0;
 
             //移動
@@ -160,7 +160,7 @@ window.addEventListener("DOMContentLoaded",e=>{
     
     //デバッグ関連
     const debug = document.querySelector("#debug");
-    debug.innerHTML = "Complete.";
+    debug.innerHTML = "Load Success!!";
 
     //星を作成
     let star = [];
