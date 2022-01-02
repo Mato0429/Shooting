@@ -122,9 +122,9 @@ window.addEventListener("DOMContentLoaded",e=>{
         for (let i = 0; i < starmax ; i ++) star[i].draw();
 
         //bullet更新
-        bullet.update();
+        for(let i = 0;i < bullet.length;i++) bullet[i].update();
         //bulletスプライト描画
-        bullet.draw();
+        for(let i = 0;i < bullet.length;i++) bullet[i].draw();
 
         //player更新
         player.update();
@@ -208,7 +208,9 @@ window.addEventListener("DOMContentLoaded",e=>{
     const player = new Player();
 
     //bullet作成
-    const bullet = new Bullet(0,25);
+    const bullet = [new Bullet(0,25),
+                    new Bullet(3,25),
+                    new Bullet(-3,25)];
 
     //ループ呼び出し
     setInterval(loop,1000/fps);
