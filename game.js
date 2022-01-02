@@ -71,7 +71,7 @@ window.addEventListener("DOMContentLoaded",e=>{
             this.y = 350;
         }
         draw(){
-            drawsprite(this.x,this.y);
+            drawsprite(this.x,this.y,sprite_player_img);
         }
 
         update(){
@@ -89,22 +89,56 @@ window.addEventListener("DOMContentLoaded",e=>{
         }
     }
 
+    //bulletクラス
+    class Bullet{
+        constructor(vx,vy){
+            this.x = player.x + 20;
+            this.y = player.y + 5;
+            this.vx = vx;
+            this.vy = vy;
+        }
+        draw(){
+            drawsprite(this.x,this.y,sprite_bullet_img);
+        }
+        update(){
+            if(key[32] && this.y < -25) {
+                this.x = player.x + 20;
+                this.y = player.y + 5;
+            }
+            this.x += this.vx;
+            this.y -= this.vy;
+        }
+    }
+
     //ゲームループ
     function loop(){
         //更新
         for (let i = 0; i < starmax ; i ++) star[i].update();
 
         //描画
-        vcon.fillStyle = "black"
-        vcon.fillRect(0,0,screen_w,screen_h)
+        vcon.fillStyle = "black";
+        vcon.fillRect(0,0,screen_w,screen_h);
 
         for (let i = 0; i < starmax ; i ++) star[i].draw();
 
-        //スプライト更新
-        player.update();
+        //bullet更新
+        bullet.update();
+        //bulletスプライト描画
+        bullet.draw();
 
-        //スプライト描画
+        //player更新
+        player.update();
+        //playerスプライト描画
         player.draw();
+
+        //雷描画
+        if(rand(0,100) == 1) bolt = 12;
+
+        if(bolt > 0){
+        vcon.fillStyle = "rgba(255,255,255,0.50)";
+        vcon.fillRect(0,0,screen_w,screen_h);
+        bolt--;
+        }
 
         //仮想画面からキャンバスにコピー
         con.drawImage(vcan,0,0,screen_w,screen_h,
@@ -129,8 +163,10 @@ window.addEventListener("DOMContentLoaded",e=>{
     }
 
     //ファイル読み込み
-    const spriteimg = new Image();
-    spriteimg.src = "img/mini idle.png";
+    const sprite_player_img = new Image();
+    sprite_player_img.src = "img/mini idle.png";
+    const sprite_bullet_img = new Image();
+    sprite_bullet_img.src = "img/bigshot.png";
 
     //スプライトクラス
     class Sprite{
@@ -143,20 +179,21 @@ window.addEventListener("DOMContentLoaded",e=>{
     }
 
     //スプライト描画
-    function drawsprite(x,y){
+    function drawsprite(x,y,simg){
         let sx = sprite.x;
         let sy = sprite.y;
         let sw = sprite.w;
         let sh = sprite.h;
 
-        vcon.drawImage(spriteimg,sx,sy,sw,sh,x,y,sw,sh);
+        vcon.drawImage(simg,sx,sy,sw,sh,x,y,sw,sh);
     }
 
     //ゲーム関連
     const starmax = 300;
     const fps = 60;
-    const starcolor = "lightblue";
+    const starcolor = "lawngreen";
     const playerspeed = 6;
+    let bolt = 0;
     
     //デバッグ関連
     const debug = document.querySelector("#debug");
@@ -166,11 +203,12 @@ window.addEventListener("DOMContentLoaded",e=>{
     let star = [];
     for (let i = 0; i < starmax ; i ++) star[i] = new Star();
 
-    //スプライト作成
-    const sprite = new Sprite(0,0,160,160);
-
     //player作成
+    const sprite = new Sprite(0,0,160,160);
     const player = new Player();
+
+    //bullet作成
+    const bullet = new Bullet(0,25);
 
     //ループ呼び出し
     setInterval(loop,1000/fps);
