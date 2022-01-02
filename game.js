@@ -5,9 +5,14 @@ The license is in a file on github.
 https://github.com/Mato0429/Shooting/blob/main/LICENSE
 
 */
+try {
+    window.addEventListener("DOMContentLoaded",main());
+}
+catch{
+    debug.innerHTML("Running Error!!")
+}
 
-window.addEventListener("DOMContentLoaded",e=>{
-
+function main(){
     //画面関連
     const screen_w = 400;
     const screen_h = 600;
@@ -197,7 +202,7 @@ window.addEventListener("DOMContentLoaded",e=>{
     
     //デバッグ関連
     const debug = document.querySelector("#debug");
-    debug.innerHTML = "Load Success!!";
+    debug.innerHTML = "Success!!";
 
     //星を作成
     let star = [];
@@ -215,4 +220,4 @@ window.addEventListener("DOMContentLoaded",e=>{
     //ループ呼び出し
     setInterval(loop,1000/fps);
     
-});
+};
